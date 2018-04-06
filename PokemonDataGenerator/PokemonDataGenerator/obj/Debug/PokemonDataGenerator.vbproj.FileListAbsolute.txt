@@ -9,3 +9,14 @@ C:\Users\Gamer2020\Desktop\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\P
 C:\Users\Gamer2020\Desktop\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.xml
 C:\Users\Gamer2020\Desktop\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.pdb
 C:\Users\Gamer2020\Desktop\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.vbprojResolveAssemblyReference.cache
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\bin\Debug\PokemonDataGenerator.exe.config
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.exe
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.xml
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.pdb
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\bin\Debug\PokemonDataGenerator.exe
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\bin\Debug\PokemonDataGenerator.pdb
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\bin\Debug\PokemonDataGenerator.xml
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\bin\Debug\System.ValueTuple.dll
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.vbprojResolveAssemblyReference.cache
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.Resources.resources
+D:\Github\Pokemon-File-Generators\PokemonDataGenerator\PokemonDataGenerator\obj\Debug\PokemonDataGenerator.vbproj.GenerateResource.Cache

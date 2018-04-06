@@ -3,10 +3,11 @@ Imports System.IO
 Imports PokeAPI
 Imports LitJson
 
+
 Module PokeAPIFunctions
 
     Public AllPokemonData(948) As Pokemon
-
+    Public PokeSpecies As PokemonSpecies
 
     Public SpeciesNamesText As String
     Public SpeciesDataText As String
@@ -146,9 +147,9 @@ Module PokeAPIFunctions
             End If
 
             Try
-                Dim PokeSpecies As PokemonSpecies = Await DataFetcher.GetApiObject(Of PokemonSpecies)(AllPokemonData(loopvar).ID)
+                PokeSpecies = Await DataFetcher.GetApiObject(Of PokemonSpecies)(AllPokemonData(loopvar).ID)
 
-                SpeciesDataText = SpeciesDataText & vbTab & ".genderRatio        = PERCENT_FEMALE(" & (PokeSpecies.FemaleToMaleRate * 100) & ")," & vbCrLf
+                SpeciesDataText = SpeciesDataText & vbTab & ".genderRatio        = PERCENT_FEMALE(" & PokeSpecies.FemaleToMaleRate & ")," & vbCrLf
                 SpeciesDataText = SpeciesDataText & vbTab & ".eggCycles        = " & PokeSpecies.HatchCounter & "," & vbCrLf
                 SpeciesDataText = SpeciesDataText & vbTab & ".friendship        = " & PokeSpecies.BaseHappiness & "," & vbCrLf
                 SpeciesDataText = SpeciesDataText & vbTab & ".growthRate        = GROWTH_" & ((PokeSpecies.GrowthRate.Name).ToUpper).Replace("-", "_") & "," & vbCrLf

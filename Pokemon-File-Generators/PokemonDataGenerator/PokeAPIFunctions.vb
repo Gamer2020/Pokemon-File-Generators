@@ -197,6 +197,20 @@ Module PokeAPIFunctions
             End If
 
 
+            SpeciesDataText = SpeciesDataText & vbTab & ".safariZoneFleeRate        = 0" & "," & vbCrLf
+
+            Try
+
+                SpeciesDataText = SpeciesDataText & vbTab & ".bodyColor        = BODY_COLOR_" & (PokeSpecies.Colours.Name).ToUpper & "," & vbCrLf
+
+            Catch
+
+                SpeciesDataText = SpeciesDataText & vbTab & ".bodyColor        = " & "BODY_COLOR_BLUE" & "," & vbCrLf
+
+            End Try
+
+            SpeciesDataText = SpeciesDataText & vbTab & ".noFlip        = FALSE" & "," & vbCrLf
+
             SpeciesDataText = SpeciesDataText & vbTab & "}," & vbCrLf & vbCrLf
 
             loopvar = loopvar + 1

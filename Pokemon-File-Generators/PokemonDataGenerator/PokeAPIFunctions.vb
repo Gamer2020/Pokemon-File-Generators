@@ -6,7 +6,7 @@ Imports LitJson
 Module PokeAPIFunctions
 
     Public AllPokemonData(948) As Pokemon
-
+    Public PokeSpecies As PokemonSpecies
 
     Public SpeciesNamesText As String
     Public SpeciesDataText As String
@@ -90,6 +90,14 @@ Module PokeAPIFunctions
 
             'Console.WriteLine(AllPokemonData(loopvar).Name)
 
+            Try
+
+                PokeSpecies = Await DataFetcher.GetApiObject(Of PokemonSpecies)(AllPokemonData(loopvar).ID)
+
+            Catch ex As Exception
+
+            End Try
+
             SpeciesDataText = SpeciesDataText & vbTab & "[SPECIES_" & UppercaseFirstLetter(AllPokemonData(loopvar).Name) & "] =" & vbCrLf
             SpeciesDataText = SpeciesDataText & vbTab & "{" & vbCrLf
 
@@ -113,7 +121,6 @@ Module PokeAPIFunctions
             End If
 
             Try
-                Dim PokeSpecies As PokemonSpecies = Await DataFetcher.GetApiObject(Of PokemonSpecies)(AllPokemonData(loopvar).ID)
 
                 SpeciesDataText = SpeciesDataText & vbTab & ".catchRate        = " & PokeSpecies.CaptureRate & "," & vbCrLf
 
@@ -146,9 +153,9 @@ Module PokeAPIFunctions
             End If
 
             Try
-                Dim PokeSpecies As PokemonSpecies = Await DataFetcher.GetApiObject(Of PokemonSpecies)(AllPokemonData(loopvar).ID)
 
                 SpeciesDataText = SpeciesDataText & vbTab & ".genderRatio        = PERCENT_FEMALE(" & (PokeSpecies.FemaleToMaleRate * 100) & ")," & vbCrLf
+
                 SpeciesDataText = SpeciesDataText & vbTab & ".eggCycles        = " & PokeSpecies.HatchCounter & "," & vbCrLf
                 SpeciesDataText = SpeciesDataText & vbTab & ".friendship        = " & PokeSpecies.BaseHappiness & "," & vbCrLf
                 SpeciesDataText = SpeciesDataText & vbTab & ".growthRate        = GROWTH_" & ((PokeSpecies.GrowthRate.Name).ToUpper).Replace("-", "_") & "," & vbCrLf
@@ -174,6 +181,20 @@ Module PokeAPIFunctions
                 SpeciesDataText = SpeciesDataText & vbTab & ".eggGroup2        = " & "EGG_GROUP_UNDISCOVERED" & "," & vbCrLf
 
             End Try
+
+
+            If AllPokemonData(loopvar).Abilities.Count = 0 Then
+
+                SpeciesDataText = SpeciesDataText & vbTab & ".ability1        = ABILITY_NONE," & vbCrLf
+                SpeciesDataText = SpeciesDataText & vbTab & ".ability2        = ABILITY_NONE," & vbCrLf
+
+            ElseIf AllPokemonData(loopvar).Abilities.Count = 1 Then
+                SpeciesDataText = SpeciesDataText & vbTab & ".ability1        = ABILITY_" & ((AllPokemonData(loopvar).Abilities(0).Ability.Name).ToUpper).Replace(" ", "_").Replace("-", "_") & "," & vbCrLf
+                SpeciesDataText = SpeciesDataText & vbTab & ".ability2        = ABILITY_NONE," & vbCrLf
+            ElseIf AllPokemonData(loopvar).Abilities.Count = 2 Then
+                SpeciesDataText = SpeciesDataText & vbTab & ".ability1        = ABILITY_" & ((AllPokemonData(loopvar).Abilities(0).Ability.Name).ToUpper).Replace(" ", "_").Replace("-", "_") & "," & vbCrLf
+                SpeciesDataText = SpeciesDataText & vbTab & ".ability2        = ABILITY_" & ((AllPokemonData(loopvar).Abilities(1).Ability.Name).ToUpper).Replace(" ", "_") & "," & vbCrLf
+            End If
 
 
             SpeciesDataText = SpeciesDataText & vbTab & "}," & vbCrLf & vbCrLf

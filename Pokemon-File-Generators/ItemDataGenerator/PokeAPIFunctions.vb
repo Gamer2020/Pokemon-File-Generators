@@ -28,6 +28,18 @@ Module PokeAPIFunctions
 
         End While
 
+        FinalFile = "	.align 2" & vbCrLf & "gItems:: " & vbCrLf
+
+        loopvar = 0
+
+        While loopvar < AllItemData.Length
+
+            FinalFile = FinalFile & vbTab & ".string """ & AllItemData(loopvar).Name & "$"", 14" & vbCrLf
+
+            loopvar = loopvar + 1
+        End While
+
+        File.WriteAllText(AppPath & "items.inc", FinalFile)
         Console.WriteLine("Files Generated! Press enter to exit!")
 
     End Sub

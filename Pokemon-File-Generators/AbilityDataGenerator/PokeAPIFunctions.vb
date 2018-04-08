@@ -10,6 +10,7 @@ Module PokeAPIFunctions
     Public AbilityNames As String
     Public AbilityDescriptions As String
     Public AbilityDescriptionPointers As String
+    Public AbilityNamesDefine As String
 
     Public FinalFile As String
 
@@ -55,6 +56,8 @@ Module PokeAPIFunctions
 
             AbilityNames = AbilityNames & vbTab & "_(" & """" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", " ") & "" & """" & ")," & vbCrLf
 
+            AbilityNamesDefine = AbilityNamesDefine & "#define ABILITY_" & ((UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "_")).ToUpper & " " & loopvar + 2 & vbCrLf
+
             AbilityDescriptionPointers = AbilityDescriptionPointers & "g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "Description," & vbCrLf
 
             Try
@@ -85,6 +88,7 @@ Module PokeAPIFunctions
         FinalFile = FinalFile & vbCrLf & vbCrLf & "#endif // POKEEMERALD_DATA_TEXT_ABILITIES_H"
 
         File.WriteAllText(AppPath & "abilities.h", FinalFile)
+        File.WriteAllText(AppPath & "abilities2.h", AbilityNamesDefine)
 
         Console.WriteLine("Files Generated! Press enter to exit!")
 

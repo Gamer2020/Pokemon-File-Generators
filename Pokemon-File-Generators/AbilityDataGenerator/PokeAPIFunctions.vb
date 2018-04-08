@@ -55,17 +55,38 @@ Module PokeAPIFunctions
 
             AbilityNames = AbilityNames & vbTab & "_(" & """" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", " ") & "" & """" & ")," & vbCrLf
 
+            AbilityDescriptionPointers = AbilityDescriptionPointers & "g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "Description," & vbCrLf
+
+            Try
+
+                AbilityDescriptions = AbilityDescriptions & "static const u8 g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "[] = _(" & """" & AllAbilityData(loopvar).FlavorTexts(0).FlavorText & """" & ");" & vbCrLf
+
+            Catch ex As Exception
+
+                AbilityDescriptions = AbilityDescriptions & "static const u8 g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "[] = _(" & """" & "No special ability." & """" & ");" & vbCrLf
+
+            End Try
+
             loopvar = loopvar + 1
 
         End While
+
+        AbilityNames = "const u8 gAbilityNames[][ABILITY_NAME_LENGTH + 1] =" & vbCrLf & "{" & vbCrLf & AbilityNames & vbCrLf & "};" & vbCrLf & vbCrLf
+
+        AbilityDescriptionPointers = "const u8 *const gAbilityDescriptionPointers[] =" & vbCrLf & "{" & vbCrLf & AbilityDescriptionPointers & "};" & vbCrLf
+
+        AbilityDescriptions = AbilityDescriptions & vbCrLf
 
         FinalFile = "#ifndef POKEEMERALD_DATA_TEXT_ABILITIES_H" & vbCrLf & "#define POKEEMERALD_DATA_TEXT_ABILITIES_H" & vbCrLf & vbCrLf
 
 
         FinalFile = FinalFile & AbilityDescriptions & AbilityNames & AbilityDescriptionPointers
 
+        FinalFile = FinalFile & vbCrLf & vbCrLf & "#endif // POKEEMERALD_DATA_TEXT_ABILITIES_H"
+
         File.WriteAllText(AppPath & "abilities.h", FinalFile)
 
         Console.WriteLine("Files Generated! Press enter to exit!")
+
     End Sub
 End Module

@@ -2,7 +2,6 @@
 
     Sub Main()
         LoadAllAbilityData()
-
         Console.ReadLine()
     End Sub
 

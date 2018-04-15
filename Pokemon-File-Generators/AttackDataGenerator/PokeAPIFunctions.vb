@@ -11,6 +11,7 @@ Module PokeAPIFunctions
     Public DataFile As String
     Public NamesFile As String
     Public DescriptionsFile As String
+    Public AttackDefines As String
 
     Public DescriptionPointers As String
 
@@ -41,6 +42,8 @@ Module PokeAPIFunctions
 
         While loopvar < AllAttackData.Length
 
+
+            AttackDefines = AttackDefines & "#define MOVE_" & ((AllAttackData(loopvar).Name).Replace("-", "_")).ToUpper & " " & loopvar + 1 & vbCrLf
 
             NamesFile = NamesFile & vbTab & ".string " & """" & StrConv(((AllAttackData(loopvar).Name).Replace("-", " ")), VbStrConv.ProperCase) & "$" & """" & ", 13" & vbCrLf
 
@@ -78,6 +81,7 @@ Module PokeAPIFunctions
 
         File.WriteAllText(AppPath & "move_names.inc", NamesFile)
         File.WriteAllText(AppPath & "move_descriptions.inc", DescriptionsFile)
+        File.WriteAllText(AppPath & "moves.h", AttackDefines)
 
         Console.WriteLine("Files Generated! Press enter to exit!")
 

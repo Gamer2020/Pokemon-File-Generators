@@ -10,6 +10,9 @@ Module PokeAPIFunctions
 
     Public DataFile As String
     Public NamesFile As String
+    Public DescriptionsFile As String
+
+    Public DescriptionPointers As String
 
     Public Async Sub LoadAllAttackData()
 
@@ -41,11 +44,40 @@ Module PokeAPIFunctions
 
             NamesFile = NamesFile & vbTab & ".string " & """" & StrConv(((AllAttackData(loopvar).Name).Replace("-", " ")), VbStrConv.ProperCase) & "$" & """" & ", 13" & vbCrLf
 
+            DescriptionPointers = DescriptionPointers & vbTab & ".4byte g" & (StrConv(((AllAttackData(loopvar).Name).Replace("-", " ")), VbStrConv.ProperCase)).Replace(" ", "") & "MoveDescription::" & vbCrLf
+
+            DescriptionsFile = DescriptionsFile & "g" & (StrConv(((AllAttackData(loopvar).Name).Replace("-", " ")), VbStrConv.ProperCase)).Replace(" ", "") & "MoveDescription::" & vbCrLf
+
+            Dim languagecount As Integer = 0
+
+            While languagecount < (AllAttackData(loopvar).FlavorTextEntries().Count) + 1
+                If AllAttackData(loopvar).FlavorTextEntries(languagecount).Language.Name = "en" Then
+
+                    DescriptionsFile = DescriptionsFile & vbTab & ".string " & """" & (AllAttackData(loopvar).FlavorTextEntries(languagecount).FlavorText).Replace(vbLf, "\n") & "$" & """" & vbCrLf & vbCrLf
+
+                    Exit While
+
+                Else
+
+                    'DescriptionsFile = DescriptionsFile & vbTab & ".string " & """" & "English Description not available..." & "$" & """" & vbCrLf & vbCrLf
+
+                End If
+
+                languagecount = languagecount + 1
+            End While
+
+            If languagecount = (AllAttackData(loopvar).FlavorTextEntries().Count) + 1 Then
+                DescriptionsFile = DescriptionsFile & vbTab & ".string " & """" & "English Description not available..." & "$" & """" & vbCrLf & vbCrLf
+            End If
+
             loopvar = loopvar + 1
 
         End While
 
+        DescriptionsFile = DescriptionsFile & vbTab & ".align 2" & vbCrLf & "gMoveDescriptionPointers::" & vbCrLf & DescriptionPointers
+
         File.WriteAllText(AppPath & "move_names.inc", NamesFile)
+        File.WriteAllText(AppPath & "move_descriptions.inc", DescriptionsFile)
 
         Console.WriteLine("Files Generated! Press enter to exit!")
 

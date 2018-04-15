@@ -42,6 +42,17 @@ Module PokeAPIFunctions
 
         While loopvar < AllAttackData.Length
 
+            DataFile = DataFile & vbTab & "{ // MOVE_" & ((AllAttackData(loopvar).Name).Replace("-", "_")).ToUpper & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".effect = EFFECT_HIT," & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".power = " & (AllAttackData(loopvar).Power) & "," & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".type = TYPE_" & (AllAttackData(loopvar).Type.Name).ToUpper & "," & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".accuracy = " & (AllAttackData(loopvar).Accuracy) & "," & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".pp = " & (AllAttackData(loopvar).PP) & "," & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".secondaryEffectChance = 0" & "," & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".target = MOVE_TARGET_SELECTED" & "," & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".priority = " & (AllAttackData(loopvar).Priority) & "," & vbCrLf
+            DataFile = DataFile & vbTab & vbTab & ".flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGSROCK_AFFECTED" & "," & vbCrLf
+            DataFile = DataFile & vbTab & "}," & vbCrLf
 
             AttackDefines = AttackDefines & "#define MOVE_" & ((AllAttackData(loopvar).Name).Replace("-", "_")).ToUpper & " " & loopvar + 1 & vbCrLf
 
@@ -82,6 +93,7 @@ Module PokeAPIFunctions
         File.WriteAllText(AppPath & "move_names.inc", NamesFile)
         File.WriteAllText(AppPath & "move_descriptions.inc", DescriptionsFile)
         File.WriteAllText(AppPath & "moves.h", AttackDefines)
+        File.WriteAllText(AppPath & "battle_moves.h", DataFile)
 
         Console.WriteLine("Files Generated! Press enter to exit!")
 

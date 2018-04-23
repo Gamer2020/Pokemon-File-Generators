@@ -11,9 +11,11 @@ Module PokeAPIFunctions
     Public DataFile As String
     Public NamesFile As String
     Public DescriptionsFile As String
-    Public AttackDefines As String
-
     Public DescriptionPointers As String
+    Public AttackDefines As String
+    Public AnimationTable As String
+
+
 
     Public Async Sub LoadAllAttackData()
 
@@ -41,6 +43,8 @@ Module PokeAPIFunctions
         loopvar = 0
 
         While loopvar < AllAttackData.Length
+
+            AnimationTable = AnimationTable & vbTab & ".4byte Move_NONE" & " // MOVE_" & ((AllAttackData(loopvar).Name).Replace("-", "_")).ToUpper & vbCrLf
 
             DataFile = DataFile & vbTab & "{ // MOVE_" & ((AllAttackData(loopvar).Name).Replace("-", "_")).ToUpper & vbCrLf
             DataFile = DataFile & vbTab & vbTab & ".effect = EFFECT_HIT," & vbCrLf
@@ -94,6 +98,7 @@ Module PokeAPIFunctions
         File.WriteAllText(AppPath & "move_descriptions.inc", DescriptionsFile)
         File.WriteAllText(AppPath & "moves.h", AttackDefines)
         File.WriteAllText(AppPath & "battle_moves.h", DataFile)
+        File.WriteAllText(AppPath & "battle_anim_scripts.s", AnimationTable)
 
         Console.WriteLine("Files Generated! Press enter to exit!")
 

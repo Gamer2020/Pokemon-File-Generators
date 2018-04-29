@@ -14,6 +14,9 @@ Module PokeAPIFunctions
     Public DescriptionPointers As String
     Public AttackDefines As String
     Public AnimationTable As String
+    Public MindRatingsTable As String
+
+    Public ContestData As String
 
 
 
@@ -43,6 +46,22 @@ Module PokeAPIFunctions
         loopvar = 0
 
         While loopvar < AllAttackData.Length
+
+            ContestData = ContestData & "@ " & StrConv(((AllAttackData(loopvar).Name).Replace("-", " ")), VbStrConv.ProperCase) & vbCrLf
+            ContestData = ContestData & vbTab & ".byte 0x00 @ effect ID" & vbCrLf
+            Try
+                ContestData = ContestData & vbTab & ".byte CONTEST_" & (AllAttackData(loopvar).ContestType.Name).ToUpper & vbCrLf
+
+            Catch ex As Exception
+                ContestData = ContestData & vbTab & ".byte 0" & vbCrLf
+
+            End Try
+
+            ContestData = ContestData & vbTab & ".byte 0 @ combo starter ID" & vbCrLf
+            ContestData = ContestData & vbTab & ".byte 0, 0, 0, 0 @ moves this move can follow to make a combo" & vbCrLf
+            ContestData = ContestData & vbTab & ".byte 0 @ padding" & vbCrLf & vbCrLf
+
+            MindRatingsTable = MindRatingsTable & vbTab & ".byte 0 @ " & StrConv(((AllAttackData(loopvar).Name).Replace("-", " ")), VbStrConv.ProperCase) & vbCrLf
 
             AnimationTable = AnimationTable & vbTab & ".4byte Move_NONE" & " // MOVE_" & ((AllAttackData(loopvar).Name).Replace("-", "_")).ToUpper & vbCrLf
 
@@ -94,6 +113,8 @@ Module PokeAPIFunctions
 
         DescriptionsFile = DescriptionsFile & vbTab & ".align 2" & vbCrLf & "gMoveDescriptionPointers::" & vbCrLf & DescriptionPointers
 
+        File.WriteAllText(AppPath & "contest_moves.inc", ContestData)
+        File.WriteAllText(AppPath & "battle_arena_move_mind_ratings.inc", MindRatingsTable)
         File.WriteAllText(AppPath & "move_names.inc", NamesFile)
         File.WriteAllText(AppPath & "move_descriptions.inc", DescriptionsFile)
         File.WriteAllText(AppPath & "moves.h", AttackDefines)

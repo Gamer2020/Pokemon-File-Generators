@@ -62,11 +62,36 @@ Module PokeAPIFunctions
 
             Try
 
-                AbilityDescriptions = AbilityDescriptions & "static const u8 g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "[] = _(" & """" & AllAbilityData(loopvar).FlavorTexts(0).FlavorText & """" & ");" & vbCrLf
+                Dim languagecount As Integer = 0
+
+                While languagecount < (AllAbilityData(loopvar).FlavorTexts().Count) + 1
+                    If AllAbilityData(loopvar).FlavorTexts(languagecount).Language.Name = "en" Then
+
+                        'DescriptionsFile = DescriptionsFile & vbTab & ".string " & """" & (AllAttackData(loopvar).FlavorTextEntries(languagecount).FlavorText).Replace(vbLf, "\n") & "$" & """" & vbCrLf & vbCrLf
+                        AbilityDescriptions = AbilityDescriptions & "static const u8 g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "Description[] = _(" & """" & (AllAbilityData(loopvar).FlavorTexts(languagecount).FlavorText).Replace(vbLf, "\n") & """" & ");" & vbCrLf
+
+                        Exit While
+
+                        If languagecount = (AllAbilityData(loopvar).FlavorTexts().Count) + 1 Then
+                            AbilityDescriptions = AbilityDescriptions & "static const u8 g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "Description[] = _(" & """" & "No special ability." & """" & ");" & vbCrLf
+
+                        End If
+
+
+                    Else
+
+                        'DescriptionsFile = DescriptionsFile & vbTab & ".string " & """" & "English Description not available..." & "$" & """" & vbCrLf & vbCrLf
+
+                    End If
+
+                    languagecount = languagecount + 1
+                End While
+
+                'AbilityDescriptions = AbilityDescriptions & "static const u8 g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "[] = _(" & """" & AllAbilityData(loopvar).FlavorTexts(0).FlavorText & """" & ");" & vbCrLf
 
             Catch ex As Exception
 
-                AbilityDescriptions = AbilityDescriptions & "static const u8 g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "[] = _(" & """" & "No special ability." & """" & ");" & vbCrLf
+                AbilityDescriptions = AbilityDescriptions & "static const u8 g" & (UppercaseFirstLetter(AllAbilityData(loopvar).Name)).Replace("-", "") & "Description[] = _(" & """" & "No special ability." & """" & ");" & vbCrLf
 
             End Try
 
